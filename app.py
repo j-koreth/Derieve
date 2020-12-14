@@ -26,7 +26,7 @@ class Poem:
 
     def getValidLink(self, link):
         try: 
-            summary = wikipedia.summary(link)
+            page = wikipedia.page(link)
             return link
         except wikipedia.exceptions.DisambiguationError as err:
             if err.options:
