@@ -4,7 +4,7 @@ import requests
 import wikipedia
 import re
 import random
-
+import os
 # space = requests.get('https://apod.nasa.gov/apod/random_apod.html').text
 
 # random = requests.get('https://www.getrandomthings.com/list-food.php').text
@@ -141,4 +141,5 @@ def fifth():
 
     return render_template('/fifth.html',**locals())
 
-app.run(debug=True)
+port = int(os.environ.get('PORT', 5000))
+app.run(host='0.0.0.0', port=port)
