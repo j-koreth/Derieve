@@ -24,6 +24,20 @@ class Poem:
         self.soup = BeautifulSoup(self.request.text, 'html5lib')
         self.typeOfRequest = typeOfRequest
 
+    def getValidLink(self, link):
+        try: 
+            summary = wikipedia.summary(link)
+            return link
+        except wikipedia.exceptions.DisambiguationError as err:
+            if err.options:
+                title = err.options[0]
+            else:
+                title = "Chicken Noodle Soup"
+        except wikipedia.exceptions.PageError:
+            title = "Chicken Noodle Soup"
+        
+        return title
+
     def getTitle(self):
         if(self.typeOfRequest == 'food'):
             title = self.soup.select('div > div:nth-child(1)')[0].contents[3]
@@ -36,23 +50,16 @@ class Poem:
         else: 
             title = self.soup.select('div > div:nth-child(1)')[0].contents[2]
 
-        try: 
-            self.summary = wikipedia.summary(title)
-            self.title = title
-        except wikipedia.exceptions.DisambiguationError as err:
-            if err.options:
-                self.title = err.options[0]
-            else:
-                self.title = "Chicken Noodle Soup"
-        except wikipedia.exceptions.PageError:
-            self.title = "Chicken Noodle Soup"
-        
+
+        self.summary = wikipedia.summary(self.getValidLink(title))
+        self.title = title
         self.page = wikipedia.page(self.title)
         return self.title
 
     def getFirstSentence(self): 
         summary = wikipedia.summary(self.title) 
         regexmatches = re.findall("[A-Z]+[^(.!?)]*[.!?]", summary)
+
         if not regexmatches:
             return ""
         else:
@@ -63,18 +70,20 @@ class Poem:
         return image
 
     def getSecondSentence(self):
-        self.title2 = random.choice(self.page.links)
+        self.title2 = self.getValidLink(random.choice(self.page.links))
+
         summary = wikipedia.summary(self.title2)  
         self.page2 = wikipedia.page(self.title2)
 
         regexmatches = re.findall("[A-Z]+[^(.!?)]*[.!?]", summary)
+
         if not regexmatches:
             return ""
         else:
             return random.choice(regexmatches)
     
     def getThirdSentence(self):
-        self.title3 = random.choice(self.page2.links)
+        self.title3 = self.getValidLink(random.choice(self.page2.links))
 
         summary = wikipedia.summary(self.title3)  
         self.pag3 = wikipedia.page(self.title3)
