@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="static/style.css">
+    
+  <title>A Cybernetic Derieve</title>
+</head>
+
+<body ontouchstart="">
+
+<div id="navbar">
+  <nav>
+    <div id="title">
+      <img id="logo" src="{{ image }}" alt="Logo">
+      <h1 id="name">A Cybernetic Derieve: First</h1>
+    </div>
+    
+    <div id="navbarItems">
+        <a href="{{ url_for('second') }}"><button>Next</button></a>
+      
+    </div>
+  </nav>
+  <br>
+  <hr>
+  <div id="content">
+    <h1>"{{ title }}"</h1>
+    <p> "{{ f1 }}</p>
+  </div>
+  
+</div>
+
+
+</body>
+</html>
